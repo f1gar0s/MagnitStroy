@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>МагнитСтрой — строительный магазин</title>
+  <meta name="description" content="МагнитСтрой — строительные материалы, инструмент, электрика и сантехника. Два магазина в городе, самовывоз за 15 минут, доставка в день заказа.">
+  <meta name="theme-color" content="#F26A10">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23F26A10'/%3E%3Cpath d='M9 8v9a7 7 0 0 0 14 0V8h-4v9a3 3 0 0 1-6 0V8z' fill='%23fff'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Верхняя строка -->
+  <div class="topbar">
+    <div class="wrap topbar-in">
+      <div class="topbar-left">
+        <button id="storeBtn" class="store-btn" data-icon="pin" data-size="16">Магазин: <b id="storeName">—</b> <span class="caret">▾</span></button>
+      </div>
+      <nav class="topbar-links">
+        <a href="#/catalog?sale=1">Акции</a>
+        <a href="#/stores">Магазины</a>
+        <a href="#/delivery">Доставка и оплата</a>
+        <a href="#/delivery">Юридическим лицам</a>
+      </nav>
+      <a class="topbar-phone" data-shop-phone href="#"></a>
+    </div>
+  </div>
+
+  <!-- Шапка -->
+  <header class="header">
+    <div class="wrap header-in">
+      <a href="#/" class="logo" aria-label="МагнитСтрой — на главную">
+        <svg viewBox="0 0 32 32" width="38" height="38" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#F26A10"/><path d="M9 8v9a7 7 0 0 0 14 0V8h-4v9a3 3 0 0 1-6 0V8z" fill="#fff"/><path d="M9 8h4v3H9zM19 8h4v3h-4z" fill="#1F2329"/></svg>
+        <span>Магнит<b>Строй</b></span>
+      </a>
+      <button id="catBtn" class="cat-btn" data-icon="menu" data-size="22"><span>Каталог</span></button>
+      <form class="search" id="searchForm" role="search" autocomplete="off">
+        <input id="q" type="search" placeholder="Поиск: цемент, шуруповёрт, ламинат…" aria-label="Поиск по сайту">
+        <button type="submit" aria-label="Найти" data-icon="search" data-size="20"></button>
+        <div class="suggest" id="suggest" hidden></div>
+      </form>
+      <nav class="actions">
+        <a href="#/stores" class="act hide-sm" data-icon="store"><span>Магазины</span></a>
+        <a href="#/favorites" class="act" data-icon="heart"><span>Избранное</span><i class="badge" data-badge="fav" hidden>0</i></a>
+        <a href="#/cart" class="act" data-icon="cart"><span data-cart-sum>Корзина</span><i class="badge" data-badge="cart" hidden>0</i></a>
+      </nav>
+    </div>
+
+    <!-- Выпадающий каталог -->
+    <div class="mega" id="mega">
+      <div class="wrap mega-in">
+        <div class="mega-cats" id="megaCats"></div>
+        <div class="mega-subs" id="megaSubs"></div>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap" id="app"></main>
+
+  <!-- Подвал -->
+  <footer class="footer">
+    <div class="wrap footer-in">
+      <div class="f-col">
+        <a href="#/" class="logo logo-light">
+          <svg viewBox="0 0 32 32" width="34" height="34" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#F26A10"/><path d="M9 8v9a7 7 0 0 0 14 0V8h-4v9a3 3 0 0 1-6 0V8z" fill="#fff"/><path d="M9 8h4v3H9zM19 8h4v3h-4z" fill="#1F2329"/></svg>
+          <span>Магнит<b>Строй</b></span>
+        </a>
+        <p>Строительные материалы и инструмент для ремонта и стройки.</p>
+        <a class="f-phone" data-shop-phone href="#"></a>
+        <p class="muted">Ежедневно с 8:00 до 21:00</p>
+      </div>
+      <div class="f-col"><h4>Каталог</h4><ul id="footCats"></ul></div>
+      <div class="f-col"><h4>Покупателям</h4>
+        <ul>
+          <li><a href="#/delivery">Доставка и оплата</a></li>
+          <li><a href="#/delivery">Возврат и обмен</a></li>
+          <li><a href="#/catalog?sale=1">Акции и скидки</a></li>
+          <li><a href="#/delivery">Юридическим лицам</a></li>
+        </ul>
+      </div>
+      <div class="f-col"><h4>Магазины</h4><ul class="f-stores" id="footStores"></ul></div>
+    </div>
+    <div class="wrap f-bottom">© <span id="year"></span> МагнитСтрой. Цены на сайте носят информационный характер и не являются публичной офертой.</div>
+  </footer>
+
+  <!-- Нижнее меню на телефоне -->
+  <nav class="tabbar">
+    <a href="#/" data-icon="store"><span>Главная</span></a>
+    <a href="#/catalog" data-icon="menu"><span>Каталог</span></a>
+    <a href="#/favorites" data-icon="heart"><span>Избранное</span><i class="badge" data-badge="fav" hidden>0</i></a>
+    <a href="#/cart" data-icon="cart"><span>Корзина</span><i class="badge" data-badge="cart" hidden>0</i></a>
+  </nav>
+
+  <!-- Выбор магазина -->
+  <div class="modal" id="storeModal" hidden>
+    <div class="modal-bg" data-close></div>
+    <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="storeTitle">
+      <button class="modal-x" data-close aria-label="Закрыть">✕</button>
+      <h2 id="storeTitle">Выберите магазин</h2>
+      <p class="muted">Покажем наличие товаров и подготовим самовывоз в этом магазине</p>
+      <div id="storeList"></div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="js/icons.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
