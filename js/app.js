@@ -33,7 +33,6 @@ function plural(n, one, few, many) {
   if (m10 >= 2 && m10 <= 4 && (m100 < 12 || m100 > 14)) return few;
   return many;
 }
-const discount = p => p.old ? Math.round((1 - p.price / p.old) * 100) : 0;
 const totalStock = p => p.stock.reduce((a, b) => a + b, 0);
 
 function stars(r) {
@@ -104,18 +103,16 @@ function buyBtn(p, big = false) {
 }
 
 function card(p) {
-  const d = discount(p);
   const isFav = S.fav.includes(p.id);
   return `
   <article class="pcard">
     <a href="#/product/${p.id}" class="pcard-img">${productImg(p)}</a>
-    ${d ? `<span class="tag tag-sale">−${d}%</span>` : ''}
     <button class="fav-btn ${isFav ? 'on' : ''}" data-action="fav" data-id="${p.id}" aria-label="В избранное">${icon('heart', 20)}</button>
     <a href="#/product/${p.id}" class="pcard-name">${esc(p.name)}</a>
     <div class="pcard-rate">${stars(p.rating)} <span>${p.rating}</span> <span class="muted">${p.reviews}</span></div>
     ${availShort(p)}
     <div class="pcard-bottom">
-      <div class="price">${rub(p.price)}${d ? `<s>${rub(p.old)}</s>` : ''}<small>за ${esc(p.unit)}</small></div>
+      <div class="price">${rub(p.price)}<small>за ${esc(p.unit)}</small></div>
       ${buyBtn(p)}
     </div>
   </article>`;
@@ -140,7 +137,7 @@ const pages = {};
 
 pages.home = () => {
   const hits = [...PRODUCTS].sort((a, b) => b.reviews - a.reviews).slice(0, 10);
-  const sale = PRODUCTS.filter(p => p.old).sort((a, b) => discount(b) - discount(a));
+  const finish = PRODUCTS.filter(p => p.cat === 'finish' || p.cat === 'build');
   const tools = PRODUCTS.filter(p => p.cat === 'tools');
   return `
   <section class="hero">
@@ -157,7 +154,7 @@ pages.home = () => {
         <b>2 магазина в городе</b><span>Самовывоз через 15 минут после заказа</span>${icon('store', 54)}
       </a>
       <a href="#/catalog/build" class="promo promo-b">
-        <b>Стройматериалы по цене склада</b><span>Цемент, смеси, блоки, утеплитель</span>${icon('bricks', 54)}
+        <b>Стройматериалы со склада</b><span>Цемент, смеси, блоки, утеплитель</span>${icon('bricks', 54)}
       </a>
     </div>
   </section>
@@ -176,8 +173,8 @@ pages.home = () => {
     </div>
   </section>
 
-  ${rail('Хиты продаж', hits, '#/catalog')}
-  ${rail('Скидки недели', sale, '#/catalog?sale=1')}
+  ${rail('Хиты продаж', hits, '#/catalog?all=1')}
+  ${rail('Для ремонта и отделки', finish, '#/catalog/finish')}
   ${rail('Инструмент', tools, '#/catalog/tools')}
 
   <section class="block">
@@ -227,7 +224,7 @@ pages.catalogRoot = () => `
 /* фильтры листинга */
 let F = null;
 function freshFilters(key, extra = {}) {
-  return { key, brands: new Set(), min: '', max: '', inStock: false, sale: false, sort: 'pop', ...extra };
+  return { key, brands: new Set(), min: '', max: '', inStock: false, sort: 'pop', ...extra };
 }
 
 function listing(title, base, crumbItems, key, extra) {
@@ -242,7 +239,6 @@ function listing(title, base, crumbItems, key, extra) {
       <div class="f-head"><b>Фильтры</b><button class="link" data-action="reset">Сбросить</button></div>
       <div class="f-group">
         <label class="switch"><input type="checkbox" data-f="inStock" ${F.inStock ? 'checked' : ''}><span></span>В наличии в магазине «${esc(curStore().short)}»</label>
-        <label class="switch"><input type="checkbox" data-f="sale" ${F.sale ? 'checked' : ''}><span></span>Со скидкой</label>
       </div>
       <div class="f-group"><b>Цена, ₽</b>
         <div class="f-price">
@@ -263,7 +259,6 @@ function listing(title, base, crumbItems, key, extra) {
           <option value="cheap" ${F.sort === 'cheap' ? 'selected' : ''}>Сначала дешёвые</option>
           <option value="exp" ${F.sort === 'exp' ? 'selected' : ''}>Сначала дорогие</option>
           <option value="rate" ${F.sort === 'rate' ? 'selected' : ''}>По рейтингу</option>
-          <option value="sale" ${F.sort === 'sale' ? 'selected' : ''}>По размеру скидки</option>
         </select>
       </div>
       <div class="grid" id="grid"></div>
@@ -277,12 +272,11 @@ function renderGrid() {
   let list = listingBase.filter(p =>
     (!F.brands.size || F.brands.has(p.brand)) &&
     (!F.inStock || p.stock[i] > 0) &&
-    (!F.sale || p.old) &&
     (F.min === '' || p.price >= +F.min) &&
     (F.max === '' || p.price <= +F.max));
   const sorters = {
     pop: (a, b) => b.reviews - a.reviews, cheap: (a, b) => a.price - b.price, exp: (a, b) => b.price - a.price,
-    rate: (a, b) => b.rating - a.rating, sale: (a, b) => discount(b) - discount(a),
+    rate: (a, b) => b.rating - a.rating,
   };
   list.sort(sorters[F.sort]);
   $('#cnt').textContent = `${list.length} ${plural(list.length, 'товар', 'товара', 'товаров')}`;
@@ -293,12 +287,12 @@ function renderGrid() {
 pages.product = id => {
   const p = byId(id);
   if (!p) return pages.notFound();
-  const c = catById(p.cat), d = discount(p), isFav = S.fav.includes(p.id);
+  const c = catById(p.cat), isFav = S.fav.includes(p.id);
   const similar = PRODUCTS.filter(x => x.cat === p.cat && x.id !== p.id);
   return `
   ${crumbs([['Каталог', '#/catalog'], [c.name, '#/catalog/' + c.id], [p.name]])}
   <div class="pp">
-    <div class="pp-gallery">${productImg(p, 160)}${d ? `<span class="tag tag-sale">−${d}%</span>` : ''}</div>
+    <div class="pp-gallery">${productImg(p, 160)}</div>
     <div class="pp-info">
       <h1>${esc(p.name)}</h1>
       <div class="pp-meta">${stars(p.rating)} <b>${p.rating}</b> <span class="muted">${p.reviews} ${plural(p.reviews, 'отзыв', 'отзыва', 'отзывов')}</span><span class="muted">Код товара: ${p.id}</span></div>
@@ -307,7 +301,7 @@ pages.product = id => {
       <dl class="specs">${Object.entries(p.specs).map(([k, v]) => `<div><dt>${esc(k)}</dt><dd>${esc(v)}</dd></div>`).join('')}<div><dt>Бренд</dt><dd>${esc(p.brand)}</dd></div></dl>
     </div>
     <aside class="pp-buy">
-      <div class="price price-lg">${rub(p.price)}${d ? `<s>${rub(p.old)}</s>` : ''}<small>за ${esc(p.unit)}</small></div>
+      <div class="price price-lg">${rub(p.price)}<small>за ${esc(p.unit)}</small></div>
       <div class="pp-btns">${buyBtn(p, true)}<button class="fav-btn fav-lg ${isFav ? 'on' : ''}" data-action="fav" data-id="${p.id}" aria-label="В избранное">${icon('heart', 22)}</button></div>
       <div class="pp-avail">
         <b>Наличие в магазинах</b>
@@ -432,7 +426,7 @@ pages.delivery = () => `
     <div class="info">${icon('box', 32)}<h3>Подъём на этаж</h3><p>Грузчики поднимут стройматериалы на этаж. Стоимость зависит от веса и наличия лифта — уточняйте у менеджера.</p></div>
     <div class="info">${icon('card', 32)}<h3>Оплата</h3><p>Наличными или картой при получении, по QR-коду СБП. Для юридических лиц — по безналичному расчёту с НДС.</p></div>
     <div class="info">${icon('shield', 32)}<h3>Возврат и обмен</h3><p>Товар надлежащего качества можно вернуть в течение 14 дней в любом из магазинов, если сохранены упаковка и чек.</p></div>
-    <div class="info">${icon('percent', 32)}<h3>Скидки для профи</h3><p>Строителям и бригадам — персональные цены и отсрочка платежа. Оставьте заявку по телефону ${esc(SHOP.phone)}.</p></div>
+    <div class="info">${icon('box', 32)}<h3>Юридическим лицам</h3><p>Работаем по безналичному расчёту с НДС, предоставляем закрывающие документы. Счёт можно запросить по телефону ${esc(SHOP.phone)}.</p></div>
   </div>`;
 
 pages.notFound = () => `<div class="empty big">${icon('search', 64)}<h1>Страница не найдена</h1><a href="#/" class="btn btn-primary btn-lg">На главную</a></div>`;
@@ -456,9 +450,9 @@ function route() {
         listingBase = PRODUCTS.filter(p => p.cat === c.id);
         html = listing(c.name, listingBase, [['Каталог', '#/catalog'], [c.name]], 'cat:' + c.id);
         after = renderGrid;
-      } else if (qs.get('sale') || qs.get('all')) {
+      } else if (qs.get('all')) {
         listingBase = PRODUCTS;
-        html = listing(qs.get('sale') ? 'Скидки' : 'Все товары', listingBase, [['Каталог', '#/catalog'], [qs.get('sale') ? 'Скидки' : 'Все товары']], 'all:' + query, { sale: !!qs.get('sale') });
+        html = listing('Все товары', listingBase, [['Каталог', '#/catalog'], ['Все товары']], 'all');
         after = renderGrid;
       } else html = pages.catalogRoot();
       break;
@@ -628,7 +622,7 @@ document.addEventListener('change', e => {
   if (t.dataset.qty) { setQty(t.dataset.qty, Math.max(1, parseInt(t.value) || 1)); route(); return; }
   if (!F || !$('#grid')) return;
   if (t.dataset.brand) { t.checked ? F.brands.add(t.dataset.brand) : F.brands.delete(t.dataset.brand); renderGrid(); }
-  else if (t.dataset.f === 'inStock' || t.dataset.f === 'sale') { F[t.dataset.f] = t.checked; renderGrid(); }
+  else if (t.dataset.f === 'inStock') { F[t.dataset.f] = t.checked; renderGrid(); }
   else if (t.dataset.f === 'sort') { F.sort = t.value; renderGrid(); }
 });
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMenus(); });

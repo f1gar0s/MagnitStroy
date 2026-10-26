@@ -151,7 +151,6 @@ img, svg { display: block; }
 .page-title .muted { font-size: 16px; margin-left: 6px; }
 .lead { font-size: 16px; color: var(--ink-2); margin: -8px 0 20px; max-width: 720px; }
 .tag { display: inline-block; padding: 2px 8px; border-radius: 6px; font-size: 12px; font-weight: 700; vertical-align: middle; }
-.tag-sale { background: var(--sale); color: #fff; }
 .tag-ok { background: #E6F6EC; color: var(--ok); }
 
 /* ---------- главная ---------- */
@@ -207,7 +206,6 @@ img, svg { display: block; }
 .pimg-brand { position: absolute; left: 10px; bottom: 8px; font-size: 11px; font-weight: 700; letter-spacing: .3px; text-transform: uppercase; color: rgba(31,35,41,.55); }
 .pcard { position: relative; display: flex; flex-direction: column; gap: 8px; background: #fff; border-radius: var(--r); padding: 12px; transition: box-shadow .15s; min-width: 0; }
 .pcard:hover { box-shadow: var(--shadow-lg); }
-.pcard .tag-sale { position: absolute; top: 20px; left: 20px; }
 .fav-btn { position: absolute; top: 18px; right: 18px; width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,.9); display: grid; place-items: center; color: var(--muted); }
 .fav-btn:hover { color: var(--sale); }
 .fav-btn.on { color: var(--sale); }
@@ -224,7 +222,6 @@ img, svg { display: block; }
 .av-no { color: var(--no); }
 .pcard-bottom { margin-top: auto; display: flex; align-items: flex-end; justify-content: space-between; gap: 8px; flex-wrap: wrap; padding-top: 4px; }
 .price { font-size: 20px; font-weight: 800; display: flex; flex-wrap: wrap; align-items: baseline; column-gap: 8px; line-height: 1.2; }
-.price s { font-size: 13px; font-weight: 400; color: var(--muted); }
 .price small { flex-basis: 100%; font-size: 12px; font-weight: 400; color: var(--muted); }
 .pcard .btn { height: 38px; padding: 0 14px; }
 
@@ -274,7 +271,6 @@ img, svg { display: block; }
 /* ---------- страница товара ---------- */
 .pp { display: grid; grid-template-columns: minmax(0, 420px) minmax(0, 1fr) 320px; gap: 24px; align-items: start; }
 .pp-gallery { position: relative; background: #fff; border-radius: var(--r); padding: 16px; }
-.pp-gallery .tag-sale { position: absolute; top: 28px; left: 28px; font-size: 14px; }
 .pp-gallery .pimg-brand { font-size: 14px; left: 16px; bottom: 14px; }
 .pp-info { background: #fff; border-radius: var(--r); padding: 22px 24px; }
 .pp-info h1 { font-size: 24px; font-weight: 700; margin-bottom: 10px; }
@@ -289,7 +285,6 @@ img, svg { display: block; }
 .specs dd { margin: 0; flex: 1; }
 .pp-buy { background: #fff; border-radius: var(--r); padding: 20px; position: sticky; top: 92px; display: flex; flex-direction: column; gap: 16px; }
 .price-lg { font-size: 30px; }
-.price-lg s { font-size: 16px; }
 .pp-btns { display: flex; gap: 8px; }
 .pp-btns .btn { flex: 1; }
 .fav-lg { position: static; width: 48px; height: 48px; border-radius: var(--r-sm); border: 1px solid var(--line); background: #fff; flex-shrink: 0; }
@@ -498,7 +493,6 @@ img, svg { display: block; }
   .page-title { font-size: 22px; }
   .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
   .pcard { padding: 10px; }
-  .pcard .tag-sale { top: 16px; left: 16px; }
   .fav-btn { top: 14px; right: 14px; width: 32px; height: 32px; }
   .price { font-size: 17px; }
   .pcard .btn { width: 100%; }
