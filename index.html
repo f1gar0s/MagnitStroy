@@ -5,12 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>МагнитСтрой — строительный магазин</title>
   <meta name="description" content="МагнитСтрой — строительные материалы, инструмент, электрика и сантехника. Два магазина в городе, самовывоз за 15 минут, доставка в день заказа.">
-  <meta name="theme-color" content="#F26A10">
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23F26A10'/%3E%3Cpath d='M9 8v9a7 7 0 0 0 14 0V8h-4v9a3 3 0 0 1-6 0V8z' fill='%23fff'/%3E%3C/svg%3E">
+  <meta name="theme-color" content="#426226">
+  <link rel="icon" type="image/png" sizes="64x64" href="img/favicon-64.png">
+  <link rel="apple-touch-icon" href="img/favicon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/style.css?v=3">
 </head>
 <body>
 
@@ -34,8 +35,7 @@
   <header class="header">
     <div class="wrap header-in">
       <a href="#/" class="logo" aria-label="МагнитСтрой — на главную">
-        <svg viewBox="0 0 32 32" width="38" height="38" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#F26A10"/><path d="M9 8v9a7 7 0 0 0 14 0V8h-4v9a3 3 0 0 1-6 0V8z" fill="#fff"/><path d="M9 8h4v3H9zM19 8h4v3h-4z" fill="#1F2329"/></svg>
-        <span>Магнит<b>Строй</b></span>
+        <img src="img/logo.png" alt="МагнитСтрой" width="178" height="56">
       </a>
       <button id="catBtn" class="cat-btn" data-icon="menu" data-size="22"><span>Каталог</span></button>
       <form class="search" id="searchForm" role="search" autocomplete="off">
@@ -66,7 +66,7 @@
     <div class="wrap footer-in">
       <div class="f-col">
         <a href="#/" class="logo logo-light">
-          <svg viewBox="0 0 32 32" width="34" height="34" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#F26A10"/><path d="M9 8v9a7 7 0 0 0 14 0V8h-4v9a3 3 0 0 1-6 0V8z" fill="#fff"/><path d="M9 8h4v3H9zM19 8h4v3h-4z" fill="#1F2329"/></svg>
+          <img src="img/logo-icon.png" alt="" width="44" height="44">
           <span>Магнит<b>Строй</b></span>
         </a>
         <p>Строительные материалы и инструмент для ремонта и стройки.</p>
@@ -108,8 +108,8 @@
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-  <script src="js/icons.js"></script>
-  <script src="js/data.js"></script>
-  <script src="js/app.js"></script>
+  <script src="js/icons.js?v=3"></script>
+  <script src="js/data.js?v=3"></script>
+  <script src="js/app.js?v=3"></script>
 </body>
 </html>

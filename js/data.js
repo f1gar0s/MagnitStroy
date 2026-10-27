@@ -148,7 +148,7 @@ const PRODUCTS = [
 ];
 
 const BANNERS = [
-  { title: 'Сезон ремонта', text: 'Всё для отделки: смеси, грунтовки, краски и обои в наличии в обоих магазинах', btn: 'Смотреть', href: '#/catalog/finish', tone: 'orange', icon: 'roller' },
+  { title: 'Сезон ремонта', text: 'Всё для отделки: смеси, грунтовки, краски и обои в наличии в обоих магазинах', btn: 'Смотреть', href: '#/catalog/finish', tone: 'green', icon: 'roller' },
   { title: 'Инструмент Makita и Bosch', text: 'Профессиональный инструмент с официальной гарантией производителя', btn: 'К инструменту', href: '#/catalog/tools', tone: 'dark', icon: 'drill' },
-  { title: 'Доставка стройматериалов', text: 'Привезём в день заказа со склада магазина «Северный»', btn: 'Условия', href: '#/delivery', tone: 'blue', icon: 'truck' },
+  { title: 'Доставка стройматериалов', text: 'Привезём в день заказа со склада магазина «Северный»', btn: 'Условия', href: '#/delivery', tone: 'mix', icon: 'truck' },
 ];

@@ -2,10 +2,12 @@
    МагнитСтрой — стили
    ========================================================= */
 :root {
-  --brand: #F26A10;
-  --brand-dark: #D4560A;
-  --brand-soft: #FFF1E6;
-  --ink: #1F2329;
+  --brand: #426226;
+  --brand-dark: #33501C;
+  --brand-soft: #EEF3E8;
+  --accent: #FFD014;     /* жёлтый из логотипа — для мелких акцентов */
+  --night: #1C1E20;      /* почти чёрный из фирменной палитры */
+  --ink: #2A2A2A;
   --ink-2: #4A515C;
   --muted: #8A919C;
   --line: #E6E8EC;
@@ -71,7 +73,8 @@ img, svg { display: block; }
 /* ---------- шапка ---------- */
 .header { background: #fff; position: sticky; top: 0; z-index: 50; box-shadow: 0 1px 0 var(--line); }
 .header-in { display: flex; align-items: center; gap: 16px; height: 72px; }
-.logo { display: flex; align-items: center; gap: 9px; font-size: 21px; font-weight: 800; letter-spacing: -.3px; flex-shrink: 0; }
+.logo { display: flex; align-items: center; gap: 10px; font-size: 21px; font-weight: 800; letter-spacing: -.3px; flex-shrink: 0; }
+.header .logo img { height: 56px; width: auto; }
 .logo b { color: var(--brand); font-weight: 800; }
 .cat-btn {
   display: flex; align-items: center; gap: 8px; height: 44px; padding: 0 18px 0 14px;
@@ -107,7 +110,7 @@ img, svg { display: block; }
 .act span { white-space: nowrap; }
 .badge {
   position: absolute; top: 0; left: 50%; margin-left: 6px; min-width: 18px; height: 18px; padding: 0 5px;
-  background: var(--brand); color: #fff; border-radius: 9px; font: 700 11px/18px Inter, sans-serif; text-align: center; font-style: normal;
+  background: var(--accent); color: var(--ink); border-radius: 9px; font: 700 11px/18px Inter, sans-serif; text-align: center; font-style: normal;
 }
 
 /* ---------- мега-меню ---------- */
@@ -166,13 +169,15 @@ img, svg { display: block; }
 .slide p { font-size: 17px; margin: 0 0 24px; opacity: .92; }
 .slide-art { opacity: .9; margin-right: 10px; }
 .slide-art .ico { stroke-width: 1.1; }
-.tone-orange { background: linear-gradient(120deg, #F26A10, #FF9A3C); color: #fff; }
-.tone-dark { background: linear-gradient(120deg, #1F2329, #3A414C); color: #fff; }
-.tone-dark .slide-art { color: var(--brand); }
-.tone-blue { background: linear-gradient(120deg, #1D5FA8, #3C8AD8); color: #fff; }
+.tone-green { background: linear-gradient(120deg, #33501C, #426226 55%, #577D34); color: #fff; }
+.tone-green .slide-art { color: var(--accent); }
+.tone-dark { background: linear-gradient(120deg, #1C1E20, #2A2A2A); color: #fff; }
+.tone-dark .slide-art { color: var(--accent); }
+.tone-mix { background: linear-gradient(120deg, #2A2A2A, #426226); color: #fff; }
+.tone-mix .slide-art { color: #fff; }
 .dots { position: absolute; left: 48px; bottom: 22px; display: flex; gap: 8px; z-index: 2; }
 .dots button { width: 10px; height: 10px; border-radius: 5px; background: rgba(255,255,255,.5); transition: width .2s; }
-.dots button.on { width: 28px; background: #fff; }
+.dots button.on { width: 28px; background: var(--accent); }
 .hero-side { display: grid; grid-template-rows: 1fr 1fr; gap: 16px; }
 .promo { position: relative; border-radius: var(--r); padding: 22px; overflow: hidden; display: flex; flex-direction: column; gap: 6px; }
 .promo b { font-size: 18px; line-height: 1.25; max-width: 210px; }
@@ -391,17 +396,20 @@ img, svg { display: block; }
   position: fixed; left: 50%; bottom: 24px; transform: translate(-50%, 140%); z-index: 120;
   display: flex; align-items: center; gap: 10px; max-width: calc(100% - 32px);
   background: var(--ink); color: #fff; padding: 12px 18px; border-radius: var(--r); box-shadow: var(--shadow-lg);
-  font-size: 14px; transition: transform .25s;
+  font-size: 14px; transition: transform .25s, opacity .25s, visibility .25s;
+  opacity: 0; visibility: hidden;
 }
-.toast.show { transform: translate(-50%, 0); }
+.toast.show { transform: translate(-50%, 0); opacity: 1; visibility: visible; }
 .toast span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.toast a { color: #FFB27A; font-weight: 600; white-space: nowrap; }
+.toast a { color: var(--accent); font-weight: 600; white-space: nowrap; }
 .toast .ico { color: #6EE7A0; flex-shrink: 0; }
 
 /* ---------- подвал ---------- */
-.footer { background: var(--ink); color: #C4C9D1; margin-top: 24px; font-size: 14px; }
+.footer { background: var(--night); color: #C4C9D1; margin-top: 24px; font-size: 14px; }
 .footer-in { display: grid; grid-template-columns: 1.3fr 1fr 1fr 1.2fr; gap: 32px; padding-top: 40px; padding-bottom: 32px; }
-.logo-light { color: #fff; margin-bottom: 12px; }
+.logo-light { color: #fff; margin-bottom: 14px; }
+.logo-light img { border-radius: 10px; }
+.logo-light b { color: inherit; }
 .footer p { margin: 0 0 12px; }
 .footer .muted { color: #8A919C; }
 .f-phone { display: block; color: #fff; font-size: 20px; font-weight: 700; margin-bottom: 4px; }
@@ -411,7 +419,7 @@ img, svg { display: block; }
 .f-stores li { line-height: 1.5; }
 .f-stores b { color: #fff; }
 .f-stores span { color: #8A919C; font-size: 13px; }
-.f-bottom { border-top: 1px solid #343a43; padding-top: 18px; padding-bottom: 22px; font-size: 12.5px; color: #8A919C; }
+.f-bottom { border-top: 1px solid #34373B; padding-top: 18px; padding-bottom: 22px; font-size: 12.5px; color: #8A919C; }
 
 .tabbar { display: none; }
 
@@ -440,7 +448,7 @@ img, svg { display: block; }
 @media (max-width: 900px) {
   body { padding-bottom: 64px; }
   .header-in { flex-wrap: wrap; height: auto; padding-top: 10px; padding-bottom: 10px; gap: 10px; }
-  .logo { font-size: 19px; }
+  .header .logo img { height: 42px; }
   .cat-btn { display: none; }
   .actions { margin-left: auto; }
   .actions .act span { display: none; }
